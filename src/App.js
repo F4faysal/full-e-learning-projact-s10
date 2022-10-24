@@ -1,10 +1,12 @@
-import logo from './logo.svg';
+import { FaBeer } from 'react-icons/fa';
+import { RouterProvider } from 'react-router-dom';
 import './App.css';
+import { routes } from './Routes/Routes/Routes';
 
 function App() {
   return (
-    <div className="App">
-      <h1>hello</h1>
+    <div>
+    <RouterProvider router={routes}></RouterProvider>
     </div>
   );
 }
