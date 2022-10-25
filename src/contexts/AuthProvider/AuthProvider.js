@@ -34,6 +34,8 @@ const AuthProvider = ({ children }) => {
         return sendEmailVerification(auth.currentUser);
     }
 
+
+
     const logOut = () => {
         setLoading(true);
         return signOut(auth);

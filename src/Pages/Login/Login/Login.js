@@ -69,10 +69,16 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import loginPhoto from "../../../assets/login.webp";
+import { FaArrowAltCircleRight, FaGoogle, FaGithub } from "react-icons/fa";
+import { GoogleAuthProvider , GithubAuthProvider  } from "firebase/auth";
 
 const Login = () => {
+  const provider = new GoogleAuthProvider();
+  const providergit = new GithubAuthProvider();
+
   const [error, setError] = useState("");
-  const { signIn, setLoading } = useContext(AuthContext);
+  const { signIn, setLoading, providerLogin } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -86,13 +92,6 @@ const Login = () => {
         console.log(user);
         form.reset();
         setError("");
-        // if (user.emailVerified) {
-        //   navigate(from, { replace: true });
-        // } else {
-        //   toast.error(
-        //     "Your email is not verified. Please verify your email address."
-        //   );
-        // }
       })
       .catch((error) => {
         console.error(error);
@@ -103,16 +102,41 @@ const Login = () => {
       });
   };
 
+  const handleGoogle = () => {
+    providerLogin(provider)
+    .then((result) => {
+      const user = result.user;
+      console.log(user);
+      setError("");
+    })
+    .catch((error) => {
+      console.error(error);
+      setError(error.message);
+    })
+    
+  };
+
+  const handleGitHub = () => {
+    providerLogin(providergit)
+    .then((result) => {
+      const user = result.user;
+      console.log(user);
+      setError("");
+    })
+    .catch((error) => {
+      console.error(error);
+      setError(error.message);
+    })
+  }
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
+          <h1 className="text-3xl font-bold">
+            SignIn <span className="text-yellow-400">now!</span>
+          </h1>
+          <img src={loginPhoto} alt="" />
         </div>
         <form
           onSubmit={handleSubmit}
@@ -150,12 +174,36 @@ const Login = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">
-                Login
+              <button type="submit" className="btn btn-warning ">
+                Login{" "}
+                <span className="text-2xl ml-5">
+                  <FaArrowAltCircleRight />
+                </span>
               </button>
             </div>
-            <p className="label-text text-red-500" >{error}</p>
-            
+            <p className="label-text text-red-500">{error}</p>
+
+            <div className="mt-2 flex justify-center gap-3">
+              <button
+                onClick={handleGoogle}
+                type="submit"
+                className="btn btn-active btn-ghost"
+              >
+                Google{" "}
+                <span className="text-2xl ml-2 ">
+                  <FaGoogle />
+                </span>
+              </button>
+              <button 
+                onClick={handleGitHub}
+              type="submit" 
+              className="btn btn-active btn-ghost">
+                Github{" "}
+                <span className="text-2xl ml-2 ">
+                  <FaGithub />
+                </span>
+              </button>
+            </div>
           </div>
         </form>
       </div>

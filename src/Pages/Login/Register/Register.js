@@ -96,66 +96,70 @@
 
 import { Link } from "react-router-dom";
 import loginPhoto from "../../../assets/login.webp";
-import { FaArrowAltCircleRight  } from 'react-icons/fa';
+import { FaArrowAltCircleRight, FaGoogle, FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
-import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
-
-
-
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Register = () => {
+  const provider = new GoogleAuthProvider();
+  const [error, setError] = useState("");
+  const { user, createUser, providerLogin } = useContext(AuthContext);
+  const [usernam, setUsernam] = useState(user);
 
-    const [error, setError] = useState('');
-    //     const [accepted, setAccepted] = useState(false);
-    const { createUser, updateUserProfile, verifyEmail } = useContext(AuthContext);
-    
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    //   const photoURL = form.photoURL.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(name, email, password);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const name = form.name.value;
-      //   const photoURL = form.photoURL.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(name , email, password);
-      
-        createUser(email, password)
-          .then((result) => {
-            const user = result.user;
-            console.log(user);
-            setError("");
-            form.reset();
-            // toast.success('Please verify your email address.')
-          })
-          .catch((e) => {
-            console.error(e);
-            setError(e.message);
-          });
-      };
-      
+    console.log(usernam)
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError("");
+        form.reset();
+        // toast.success('Please verify your email address.')
+      })
+      .catch((e) => {
+        console.error(e);
+        setError(e.message);
+      });
+  };
+
+  const handleGoogle = () => {
+    providerLogin(provider);
+    console.lof("google");
+  };
+
+  const handelOnchaneName = (e) => {
+    setUsernam(e.target.value)
+  };
 
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          {/* <h1 className="text-5xl font-bold">Register now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p> */}
           <h1 className="text-3xl font-bold">
             Register <span className="text-yellow-400">now!</span>
           </h1>
           <img src={loginPhoto} alt="" />
         </div>
-        <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form
+          onSubmit={handleSubmit}
+          className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
+        >
           <div className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
               <input
+                onChange={handelOnchaneName}
                 type="text"
                 placeholder="Name"
                 name="name"
@@ -189,11 +193,32 @@ const Register = () => {
                 </Link>
               </label>
             </div>
-            <div className="form-control mt-6">
+            <div className="form-control mt-4">
               <button type="submit" className="btn btn-warning ">
-                Register <span className="text-2xl btn btn-warning ">< FaArrowAltCircleRight /></span>
+                Register{" "}
+                <span className="text-2xl ml-5 flex justify-end ">
+                  <FaArrowAltCircleRight />
+                </span>
               </button>
-              
+            </div>
+            <p className="label-text text-red-500">{error}</p>
+            <div className="mt-2 flex justify-center gap-3">
+              <button
+                onClick={handleGoogle}
+                type="submit"
+                className="btn btn-active btn-ghost"
+              >
+                Google
+                <span className="text-2xl ml-2 ">
+                  <FaGoogle />
+                </span>
+              </button>
+              <button type="submit" className="btn btn-active btn-ghost">
+                Github{" "}
+                <span className="text-2xl ml-2 ">
+                  <FaGithub />
+                </span>
+              </button>
             </div>
           </div>
         </form>

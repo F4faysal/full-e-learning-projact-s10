@@ -49,14 +49,41 @@ const Header = () => {
               <Link to={"faq"}>FAQ</Link>
             </li>
             <li>
-              <Link to={"blog"}>Blog</Link>
+              <Link to={"blog"}>Blogs</Link>
             </li>
+            <li>
+              <Link to={"blog"}>Blogs</Link>
+            </li>
+            <>
+              {user?.uid ? (
+                <li>
+                  <button
+                    className="btn  btn-warning btn-outline"
+                    onClick={handleLogOut}
+                  >
+                    Log out
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/register">Register</Link>
+                  </li>
+                </>
+              )}
+            </>
           </ul>
+          {/* mobile */}
         </div>
-        <Link className="btn btn-ghost bg-base-100 ">
+        <Link to={"/"} className="btn btn-ghost bg-base-100 ">
           <img className="h-full" src={logo} alt="" />
         </Link>
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
           <li>
@@ -74,7 +101,10 @@ const Header = () => {
           <>
             {user?.uid ? (
               <>
-                <button variant="light" onClick={handleLogOut}>
+                <button
+                  className="btn  btn-warning btn-outline"
+                  onClick={handleLogOut}
+                >
                   Log out
                 </button>
               </>
@@ -95,21 +125,29 @@ const Header = () => {
 
       <div className="navbar-end  ">
         <div className="flex items-center gap-2">
-          <span className="btn">{user?.email}</span>
+          
+            {user?.uid ? (
+              <span className=" hidden md:flex justify-center  btn btn-outline btn-warning">
+                {user?.displayName || user?.email}
+              </span>
+            ) : (
+              <></>
+            )}
+         
+
           <Link>
             {user?.photoURL ? (
-              <img
-                alt={user.email}
-                style={{ height: "30px" }}
-                roundedCircle
-                src={user?.photoURL}
-              ></img>
+              <div className="avatar online">
+                <div className="w-12 mask mask-squircle">
+                  <img alt="" src={user?.photoURL} />
+                </div>
+              </div>
             ) : (
               <FaUser></FaUser>
             )}
           </Link>
         </div>
-        <div>
+        <div className="hidden md:block">
           <label className="swap swap-rotate btn btn-ghost">
             <input type="checkbox" />
 
