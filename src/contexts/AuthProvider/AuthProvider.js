@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailV
 import app from '../../firebase/firebase.config';
 
 
+
 export const AuthContext = createContext();
 const auth = getAuth(app);
 
@@ -42,7 +43,7 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log('inside auth state change', currentUser);
 
-            if(currentUser === null || currentUser.emailVerified){
+            if(currentUser === null || currentUser){
                 setUser(currentUser);
             }
             setLoading(false);
