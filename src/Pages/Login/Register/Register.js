@@ -94,18 +94,27 @@
 
 // export default Register;
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginPhoto from "../../../assets/login.webp";
 import { FaArrowAltCircleRight, FaGoogle, FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider , GithubAuthProvider} from "firebase/auth";
+import toast from "react-hot-toast";
+
 
 const Register = () => {
   const provider = new GoogleAuthProvider();
+  const providergit = new GithubAuthProvider();
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const { user, createUser, providerLogin } = useContext(AuthContext);
   const [usernam, setUsernam] = useState(user);
+  const location = useLocation();
+  
+
+  const from = location.state?.from?.pathname || '/';
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -123,7 +132,13 @@ const Register = () => {
         console.log(user);
         setError("");
         form.reset();
-        // toast.success('Please verify your email address.')
+        navigate( from , { replace : true });
+        if (user.uid) {
+          toast.success(
+            "Login success Fully "
+          );
+        } else {
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -132,9 +147,43 @@ const Register = () => {
   };
 
   const handleGoogle = () => {
-    providerLogin(provider);
-    console.lof("google");
+    providerLogin(provider).then((result) => {
+      const user = result.user;
+      console.log(user);
+      setError("");
+      navigate( from , { replace : true });
+      if (user.uid) {
+        toast.success(
+          "Login success Fully "
+        );
+      } else {
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setError(error.message);
+    });
   };
+  const handleGitHub = () => {
+    providerLogin(providergit)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError("");
+        navigate( from , { replace : true });
+        if (user.uid) {
+          toast.success(
+            "Login success Fully "
+          );
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
+  };
+  
 
   const handelOnchaneName = (e) => {
     setUsernam(e.target.value)
@@ -205,7 +254,7 @@ const Register = () => {
             <div className="mt-2 flex justify-center gap-3">
               <button
                 onClick={handleGoogle}
-                type="submit"
+                
                 className="btn btn-active btn-ghost"
               >
                 Google
@@ -213,7 +262,7 @@ const Register = () => {
                   <FaGoogle />
                 </span>
               </button>
-              <button type="submit" className="btn btn-active btn-ghost">
+              <button onClick={handleGitHub}  className="btn btn-active btn-ghost">
                 Github{" "}
                 <span className="text-2xl ml-2 ">
                   <FaGithub />

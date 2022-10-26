@@ -67,18 +67,22 @@
 // export default Login;
 
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import loginPhoto from "../../../assets/login.webp";
 import { FaArrowAltCircleRight, FaGoogle, FaGithub } from "react-icons/fa";
-import { GoogleAuthProvider , GithubAuthProvider  } from "firebase/auth";
+import { GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
   const providergit = new GithubAuthProvider();
-
   const [error, setError] = useState("");
+  const location = useLocation();
   const { signIn, setLoading, providerLogin } = useContext(AuthContext);
+  const from = location.state?.from?.pathname || '/';
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,6 +96,14 @@ const Login = () => {
         console.log(user);
         form.reset();
         setError("");
+       
+        navigate( from , { replace : true });
+        if (user.uid) {
+          toast.success(
+            "Login success Fully "
+          );
+        } else {
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -104,30 +116,43 @@ const Login = () => {
 
   const handleGoogle = () => {
     providerLogin(provider)
-    .then((result) => {
-      const user = result.user;
-      console.log(user);
-      setError("");
-    })
-    .catch((error) => {
-      console.error(error);
-      setError(error.message);
-    })
-    
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError("");
+        navigate( from , { replace : true });
+        if (user.uid) {
+          toast.success(
+            "Login success Fully "
+          );
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   };
 
   const handleGitHub = () => {
     providerLogin(providergit)
-    .then((result) => {
-      const user = result.user;
-      console.log(user);
-      setError("");
-    })
-    .catch((error) => {
-      console.error(error);
-      setError(error.message);
-    })
-  }
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError("");
+        navigate( from , { replace : true });
+        if (user.uid) {
+          toast.success(
+            "Login success Fully "
+          );
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
+  };
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -194,10 +219,11 @@ const Login = () => {
                   <FaGoogle />
                 </span>
               </button>
-              <button 
+              <button
                 onClick={handleGitHub}
-              type="submit" 
-              className="btn btn-active btn-ghost">
+                type="submit"
+                className="btn btn-active btn-ghost"
+              >
                 Github{" "}
                 <span className="text-2xl ml-2 ">
                   <FaGithub />

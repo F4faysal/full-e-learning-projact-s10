@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaPlayCircle } from "react-icons/fa";
 
-const Manu = ({course}) => {
+const Manu = ({ course }) => {
   return (
-      <li>
-      <Link to={`/course/${course.id}`}>{course.titel}</Link>
-      </li>
+    <li className=" hover:text-green-700">
+      <Link to={`/courses/${course.id}`}>{course.titel} <span className="text-1xl"><FaPlayCircle /></span></Link>
+    </li>
   );
 };
 

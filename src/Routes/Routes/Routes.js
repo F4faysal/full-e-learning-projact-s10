@@ -7,6 +7,8 @@ import Faq from "../../Pages/Faq/Faq";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login/Login";
 import Register from "../../Pages/Login/Register/Register";
+import SummaryCard from "../../Pages/Shared/CourseCard/SummaryCard";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
 export const routes = createBrowserRouter([
@@ -20,7 +22,7 @@ export const routes = createBrowserRouter([
                 
             },
             {
-                path: '/Courses',
+                path: '/courses',
                 loader:  () =>  fetch('https://e-learning-servar-f4faysal.vercel.app/courses/'),
                 element: <Courses></Courses>
             },
@@ -30,7 +32,7 @@ export const routes = createBrowserRouter([
                 
             },
             {
-                path: '/Blog',
+                path: '/blog',
                 element: <Blog></Blog>
                 
             },
@@ -41,6 +43,12 @@ export const routes = createBrowserRouter([
             {
                 path:'/register',
                 element: <Register></Register>
+            },
+            {
+                path:'/courses/:id',
+                loader : ({params}) => fetch(`https://e-learning-servar-f4faysal.vercel.app/courses/${params.id}`),
+                element:  <PrivateRoute><SummaryCard></SummaryCard></PrivateRoute> 
+            
             },
             {
                 path:'*',
