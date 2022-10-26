@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../../layout/Main";
 import Page404 from "../../Pages/404/Page404";
 import Blog from "../../Pages/Blog/Blog";
+import Checkout from "../../Pages/Checkout/Checkout";
 import Courses from "../../Pages/Courses/Courses";
 import Faq from "../../Pages/Faq/Faq";
 import Home from "../../Pages/Home/Home/Home";
@@ -43,6 +44,11 @@ export const routes = createBrowserRouter([
             {
                 path:'/register',
                 element: <Register></Register>
+            },
+            {
+                path:'/courses/checkout/:id',
+                loader : ({params}) => fetch(`https://e-learning-servar-f4faysal.vercel.app/courses/${params.id}`),
+                element: <PrivateRoute><Checkout></Checkout></PrivateRoute>
             },
             {
                 path:'/courses/:id',

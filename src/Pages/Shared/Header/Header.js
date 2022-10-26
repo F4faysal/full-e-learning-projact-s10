@@ -6,8 +6,12 @@ import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [theme, setTheme] = useState(false);
 
-  console.log("hello", user);
+  const handleThemeChange = () => {
+    setTheme(!theme);
+    window.localStorage.setItem("theme", JSON.stringify(!theme));
+  };
 
   const handleLogOut = () => {
     logOut()
@@ -125,21 +129,23 @@ const Header = () => {
 
       <div className="navbar-end  ">
         <div className="flex items-center gap-2">
-          
-            {user?.uid ? (
-              <span className=" hidden md:flex justify-center  btn btn-outline btn-warning">
-                {user?.displayName || user?.email}
-              </span>
-            ) : (
-              <></>
-            )}
-         
+          {user?.uid ? (
+            <span className=" hidden md:flex justify-center  btn btn-outline btn-warning">
+              {user?.displayName || user?.email}
+            </span>
+          ) : (
+            <></>
+          )}
 
           <Link>
             {user?.photoURL ? (
-              <div className="avatar online">
+              <div className="avatar online ">
                 <div className="w-12 mask mask-squircle">
-                  <img alt="" src={user?.photoURL} />
+                  <img
+                    data-tip={user?.displayName || user?.email}
+                    alt=""
+                    src={user?.photoURL}
+                  />
                 </div>
               </div>
             ) : (
@@ -147,7 +153,7 @@ const Header = () => {
             )}
           </Link>
         </div>
-        <div className="hidden md:block">
+        <div onClick={handleThemeChange} className="hidden md:block">
           <label className="swap swap-rotate btn btn-ghost">
             <input type="checkbox" />
 

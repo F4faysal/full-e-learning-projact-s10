@@ -7,7 +7,7 @@ const Courses = () => {
   const courses = useLoaderData();
 
   return (
-    <div class=" container mx-auto">
+    <div className=" container mx-auto">
       <div className="grid grid-rows-1 grid-flow-col gap-4">
         {/* laft site card */}
         <div className="hidden md:block mt-12 ">
