@@ -11,6 +11,7 @@ const Header = () => {
   const handleThemeChange = () => {
     setTheme(!theme);
     window.localStorage.setItem("theme", JSON.stringify(!theme));
+    console.log('kala')
   };
 
   const handleLogOut = () => {

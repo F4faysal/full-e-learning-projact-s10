@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import photo from "../../../assets/studying-at-college-PXJXKNV.png";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const Home = () => {
   const {user} = useContext(AuthContext);
+
+
 
   return (
     <div className="">

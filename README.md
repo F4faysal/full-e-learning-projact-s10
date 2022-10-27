@@ -17,11 +17,13 @@ E-learning Live [Click](https://e-learning-5462d.web.app).
 
 
 ### `Github client side repository `
- [client side repository](https://github.com/programming-hero-web-course1/b610-learning-platform-client-side-F4faysal).
 `https://github.com/programming-hero-web-course1/b610-learning-platform-client-side-F4faysal`
+
+ Github [client side repository](https://github.com/programming-hero-web-course1/b610-learning-platform-client-side-F4faysal).
 
 
 ### `Github server side repository`
-[server side repository](https://github.com/programming-hero-web-course1/b610-lerning-platform-server-side-F4faysal).
 `https://github.com/programming-hero-web-course1/b610-lerning-platform-server-side-F4faysal`
+
+Github [server side repository](https://github.com/programming-hero-web-course1/b610-lerning-platform-server-side-F4faysal).
 
