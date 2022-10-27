@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
+  
   const [theme, setTheme] = useState(false);
 
   const handleThemeChange = () => {
